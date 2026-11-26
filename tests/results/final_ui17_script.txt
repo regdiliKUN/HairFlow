@@ -1,0 +1,12 @@
+[IConfig, 2021]
+[If, 1,
+[VarDef, HFS, ""]
+[VarSet, HFS, [StrMerge, "pal=", [IExists, "ZPlugin:HairFlow"], " pre=", [IExists, "ZPlugin:HairFlow:Preflight Check"], " long=", [IExists, "ZPlugin:HairFlow:Long Strand Curve"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "add=", [IExists, "ZPlugin:HairFlow:Add Curve Point"], " smooth=", [IExists, "ZPlugin:HairFlow:Smooth Curve"], " del=", [IExists, "ZPlugin:HairFlow:Delete Curve"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "step1=", [IExists, "ZPlugin:HairFlow:Curve Step 1"], " step10=", [IExists, "ZPlugin:HairFlow:Curve Step 10"], " data=", [IExists, "ZPlugin:HairFlow:Open Data Folder"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "restore=", [IExists, "ZPlugin:HairFlow:Restore Stroke"], " diag=", [IExists, "ZPlugin:HairFlow:Diagnostics"], " help=", [IExists, "ZPlugin:HairFlow:Workflow"]]]
+[MemCreate, HFX, 1024, 0]
+[MemWriteString, HFX, #HFS, 0]
+[MemSaveToFile, HFX, "C:/HairFlowTest/final17_result.txt", 1]
+[MemDelete, HFX]
+]

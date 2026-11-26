@@ -1,0 +1,9 @@
+[IConfig, 2021]
+[If, 1,
+[VarDef, HFS, ""]
+[VarSet, HFS, [StrMerge, "del=", [IExists, "Stroke:Curve Functions:Delete"], " add=", [IExists, "Stroke:Curve Functions:Add"], " smooth=", [IExists, "Stroke:Curve Functions:Smooth"]]]
+[MemCreate, HFX, 512, 0]
+[MemWriteString, HFX, #HFS, 0]
+[MemSaveToFile, HFX, "C:/HairFlowTest/cf_ui.txt", 1]
+[MemDelete, HFX]
+]

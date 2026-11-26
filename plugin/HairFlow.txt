@@ -1,0 +1,287 @@
+// HairFlow 1.6.0 - long hair groove assistant for ZBrush 2022.0.5 / 2025.0.1
+// Configures ZBrush's native Curve stroke so one long strand is laid out as ONE
+// curve, reshaped section by section, and committed as ONE continuous stroke.
+// No seam, no second stroke start, brush Size / Z Intensity / Alpha untouched.
+//
+// 1.6.0 (screen-tested in 2025.0.1): in Curve Mode, DRAGGING the curve sculpts on
+// every mouse move (stacked rows). Shape Lock turns Zadd/Zsub off while you
+// bend the curve; Shape Unlock puts them back exactly; then one click ON the
+// curve commits one clean stroke. Curve Step 0.25 beads with DamStandard, so
+// Long Strand Curve starts at 0.1.
+// ASCII only. Chinese guide: README_zh.md.
+//
+// 1.5.0: every Stroke path below was resolved by IGetID/IGetTitle in ZBrush
+// 2025.0.1 (tests/results/stroke_paths_2025.txt). Do NOT use "Stroke:Curve"
+// (that is the sub-palette, not the toggle) or "Stroke:Curve Functions:*"
+// (not resolvable by that name; "...:Add" resolves to Stroke:Inventory:Add).
+// Numeric variable names carry no underscores (ZBrush 2025 parser issue).
+[IConfig, 2021]
+
+[VarDef, hfRMode, 0]
+[VarDef, hfRLazy, 1]
+[VarDef, hfRRad, 1]
+[VarDef, hfRStep, 0.25]
+[VarDef, hfRSm, 0]
+[VarDef, hfRCStep, 0.25]
+[VarDef, hfRSnap, 0]
+[VarDef, hfHasSnap, 0]
+[VarDef, hfDiagOk, 0]
+[VarDef, hfOff, 0]
+[VarDef, hfLen, 0]
+[VarDef, hfLine, ""]
+[VarDef, hfLocked, 0]
+[VarDef, hfRZadd, 1]
+[VarDef, hfRZsub, 0]
+
+// put Zadd / Zsub back to the values stored by Shape Lock
+[RoutineDef, hfUnlock,
+  [If, (hfLocked = 1),
+    [If, [IExists, "Draw:Zadd"], [ISet, "Draw:Zadd", hfRZadd]]
+    [If, [IExists, "Draw:Zsub"], [ISet, "Draw:Zsub", hfRZsub]]
+    [VarSet, hfLocked, 0]
+  ]
+]
+
+// set Curve Step on ZBrush and mirror it on the HairFlow slider
+[RoutineDef, hfSetCurveStep,
+  [If, [IExists, "Stroke:Curve:Curve Step"], [ISet, "Stroke:Curve:Curve Step", hfVal]]
+  [If, [IExists, "ZPlugin:HairFlow:Curve Step"], [ISet, "ZPlugin:HairFlow:Curve Step", hfVal]]
+, hfVal]
+
+// append one text line to memory block HFM at hfOff
+[RoutineDef, hfDiagLine,
+  [VarSet, hfLen, [StrLength, hfLine]]
+  [MemWriteString, HFM, hfLine, hfOff, 0]
+  [VarSet, hfOff, hfOff + hfLen]
+  [MemWriteString, HFM, [StrFromAsc, 13], hfOff, 0]
+  [VarSet, hfOff, hfOff + 1]
+  [MemWriteString, HFM, [StrFromAsc, 10], hfOff, 0]
+  [VarSet, hfOff, hfOff + 1]
+]
+
+[ISubPalette, "ZPlugin:HairFlow"]
+
+[IButton, "ZPlugin:HairFlow:Preflight Check",
+  "Check SubTool, Edit mode, Curve Mode and Curve Step before drawing a long strand.",
+  [If, ([SubToolGetCount] < 1),
+    [NoteBar, "HairFlow preflight: no SubTool. Load a PolyMesh3D and enter Edit first.", 0]
+  ,
+    [If, ([IGet, "Transform:Edit"] = 0),
+      [NoteBar, "HairFlow preflight: Edit is OFF. Press Transform > Edit (T) first.", 0]
+    ,
+      [If, (hfLocked = 1),
+        [NoteBar, "HairFlow preflight: Shape Lock is ON (Zadd/Zsub off, nothing will sculpt). Press Shape Unlock before committing.", 0]
+      ,
+      [If, ([IGet, "Stroke:Curve:Curve Mode"] = 0),
+        [NoteBar, "HairFlow preflight OK, but Curve Mode is OFF. Press Long Strand Curve before drawing.", 0]
+      ,
+        [If, ([IGet, "Stroke:Curve:Curve Step"] > 1),
+          [NoteBar, [StrMerge, "HairFlow preflight: Curve Step=", [IGet, "Stroke:Curve:Curve Step"], " is coarse; dots may show in the groove. Use Step Fine."], 0]
+        ,
+          [NoteBar, [StrMerge, "HairFlow preflight OK: curveMode=1 step=", [IGet, "Stroke:Curve:Curve Step"], " lazy=", [IGet, "Stroke:Lazy Mouse"], " snap=", [IGet, "Stroke:Curve:Snap"]], 0]
+        ]
+      ]
+      ]
+    ]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Long Strand Curve",
+  "Curve Mode ON + Lazy Mouse OFF + curve Snap ON + Curve Step 0.1. Drag one curve root to tip; Shape Lock to bend it; Shape Unlock; click the curve once to commit.",
+  [If, [IExists, "Stroke:Curve:Curve Mode"],
+    [ISet, "Stroke:Curve:Curve Mode", 1]
+    [If, [IExists, "Stroke:Lazy Mouse"], [ISet, "Stroke:Lazy Mouse", 0]]
+    [If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", 1]]
+    [RoutineCall, hfSetCurveStep, 0.1]
+    [NoteBar, "Long-strand mode (step 0.1): drag root to tip as ONE curve. To bend it, Shape Lock first. Commit = click ON the curve once.", 0]
+  ,
+    [NoteBar, "HairFlow: Stroke > Curve > Curve Mode was not found in this build. Turn it on manually.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Curve Off",
+  "Turn Curve Mode OFF but leave Lazy Mouse untouched. Use when returning to freehand.",
+  [If, [IExists, "Stroke:Curve:Curve Mode"],
+    [ISet, "Stroke:Curve:Curve Mode", 0]
+    [NoteBar, "HairFlow: Curve Mode OFF; Lazy Mouse left as-is.", 0]
+  ,
+    [NoteBar, "HairFlow: Stroke > Curve > Curve Mode was not found in this build.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Curve Edit Tips",
+  "How to shape a long curve without sculpting while you shape it. Changes nothing.",
+  [NoteBar, "Dragging a curve SCULPTS on every move. Shape Lock, drag to bend (rotate view as needed), Smooth Curve, Shape Unlock, then click ON the curve once.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Shape Lock",
+  "Store Zadd/Zsub and turn both OFF, so dragging the curve to bend it sculpts nothing. Z Intensity is untouched. Press Shape Unlock before committing.",
+  [If, (hfLocked = 0),
+    [If, [IExists, "Draw:Zadd"], [VarSet, hfRZadd, [IGet, "Draw:Zadd"]]]
+    [If, [IExists, "Draw:Zsub"], [VarSet, hfRZsub, [IGet, "Draw:Zsub"]]]
+    [If, [IExists, "Draw:Zadd"], [ISet, "Draw:Zadd", 0]]
+    [If, [IExists, "Draw:Zsub"], [ISet, "Draw:Zsub", 0]]
+    [VarSet, hfLocked, 1]
+    [NoteBar, "HairFlow Shape Lock ON: drag the curve to bend it, nothing is sculpted. Then Shape Unlock and click the curve once.", 0]
+  ,
+    [NoteBar, "HairFlow: Shape Lock is already ON. Press Shape Unlock when the curve shape is done.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Shape Unlock",
+  "Put Zadd/Zsub back exactly as Shape Lock found them. Then click ON the curve once to commit.",
+  [If, (hfLocked = 1),
+    [RoutineCall, hfUnlock]
+    [NoteBar, "HairFlow Shape Lock OFF: Zadd/Zsub restored. Click ON the curve once to commit one stroke.", 0]
+  ,
+    [NoteBar, "HairFlow: Shape Lock was not on; nothing changed.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Smooth Curve",
+  "Native Stroke > Curve > Smooth: relax the current curve before committing. Requires an active curve.",
+  [If, [IExists, "Stroke:Curve:Smooth"],
+    [IPress, "Stroke:Curve:Smooth"]
+  ,
+    [NoteBar, "HairFlow: Smooth was not found. Use Stroke > Curve > Smooth manually.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Delete Curve",
+  "Native Stroke > Curve > Delete: remove the current curve after the groove is committed.",
+  [If, [IExists, "Stroke:Curve:Delete"],
+    [IPress, "Stroke:Curve:Delete"]
+  ,
+    [NoteBar, "HairFlow: Delete was not found. Use Stroke > Curve > Delete manually.", 0]
+  ],
+  0, 0]
+
+[ISlider, "ZPlugin:HairFlow:Curve Step", 0.25, 0.05, 0, 2,
+  "Curve Step (dot spacing along the curve). Smaller = denser, smoother groove. ZBrush default 0.25; above 1 dots may show.",
+  [If, [IExists, "Stroke:Curve:Curve Step"], [ISet, "Stroke:Curve:Curve Step", [IGet, "ZPlugin:HairFlow:Curve Step"]]],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Step Fine",
+  "Curve Step 0.1: densest dots for thin, sharp strands. Slower on very long curves.",
+  [RoutineCall, hfSetCurveStep, 0.1]
+  [NoteBar, "HairFlow: Curve Step = 0.1 (fine).", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Step Standard",
+  "Curve Step 0.25: ZBrush default, smooth groove for most hair.",
+  [RoutineCall, hfSetCurveStep, 0.25]
+  [NoteBar, "HairFlow: Curve Step = 0.25 (ZBrush default).", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Step Medium",
+  "Curve Step 0.5: lighter, faster; still continuous for most brush sizes.",
+  [RoutineCall, hfSetCurveStep, 0.5]
+  [NoteBar, "HairFlow: Curve Step = 0.5.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Step Fast",
+  "Curve Step 1: fastest blocking; dots may become visible on small brushes.",
+  [RoutineCall, hfSetCurveStep, 1]
+  [NoteBar, "HairFlow: Curve Step = 1 (fast blocking; check for dots).", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Curve Snap On",
+  "Native Stroke > Curve > Snap ON: keep the curve glued to the surface while editing.",
+  [If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", 1]]
+  [NoteBar, "HairFlow: curve surface snap ON.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Curve Snap Off",
+  "Native Stroke > Curve > Snap OFF: let the curve float; useful for silhouette edits.",
+  [If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", 0]]
+  [NoteBar, "HairFlow: curve surface snap OFF.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Freehand Assist",
+  "Curve Mode OFF + Lazy Mouse ON (Radius 10, Step 0.25, Smooth 4). Only if you prefer freehand segments; overlap 10-15% and Shift-smooth the joint.",
+  [If, [IExists, "Stroke:Curve:Curve Mode"], [ISet, "Stroke:Curve:Curve Mode", 0]]
+  [If, [IExists, "Stroke:Lazy Mouse"], [ISet, "Stroke:Lazy Mouse", 1]]
+  [If, [IExists, "Stroke:Lazy Radius"], [ISet, "Stroke:Lazy Radius", 10]]
+  [If, [IExists, "Stroke:Lazy Step"], [ISet, "Stroke:Lazy Step", 0.25]]
+  [If, [IExists, "Stroke:Lazy Smooth"], [ISet, "Stroke:Lazy Smooth", 4]]
+  [NoteBar, "Freehand assist: overlap 10-15%, steady pressure; Shift+Smooth the joint 2-3 light passes.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Remember Stroke",
+  "Store Curve Mode / Curve Step / Snap / Lazy Mouse settings before changing modes.",
+  [If, [IExists, "Stroke:Curve:Curve Mode"], [VarSet, hfRMode, [IGet, "Stroke:Curve:Curve Mode"]]]
+  [If, [IExists, "Stroke:Lazy Mouse"], [VarSet, hfRLazy, [IGet, "Stroke:Lazy Mouse"]]]
+  [If, [IExists, "Stroke:Lazy Radius"], [VarSet, hfRRad, [IGet, "Stroke:Lazy Radius"]]]
+  [If, [IExists, "Stroke:Lazy Step"], [VarSet, hfRStep, [IGet, "Stroke:Lazy Step"]]]
+  [If, [IExists, "Stroke:Lazy Smooth"], [VarSet, hfRSm, [IGet, "Stroke:Lazy Smooth"]]]
+  [If, [IExists, "Stroke:Curve:Curve Step"], [VarSet, hfRCStep, [IGet, "Stroke:Curve:Curve Step"]]]
+  [If, [IExists, "Stroke:Curve:Snap"], [VarSet, hfRSnap, [IGet, "Stroke:Curve:Snap"]]]
+  [VarSet, hfHasSnap, 1]
+  [NoteBar, "HairFlow: stroke state remembered. Use Restore Stroke to return.", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Restore Stroke",
+  "Undo Shape Lock if on, then return Curve Mode / Curve Step / Snap / Lazy Mouse to the state stored by Remember Stroke.",
+  [RoutineCall, hfUnlock]
+  [If, (hfHasSnap = 1),
+    [If, [IExists, "Stroke:Curve:Curve Mode"], [ISet, "Stroke:Curve:Curve Mode", hfRMode]]
+    [If, [IExists, "Stroke:Lazy Mouse"], [ISet, "Stroke:Lazy Mouse", hfRLazy]]
+    [If, [IExists, "Stroke:Lazy Radius"], [ISet, "Stroke:Lazy Radius", hfRRad]]
+    [If, [IExists, "Stroke:Lazy Step"], [ISet, "Stroke:Lazy Step", hfRStep]]
+    [If, [IExists, "Stroke:Lazy Smooth"], [ISet, "Stroke:Lazy Smooth", hfRSm]]
+    [RoutineCall, hfSetCurveStep, hfRCStep]
+    [If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", hfRSnap]]
+    [NoteBar, "HairFlow: stroke state restored.", 0]
+  ,
+    [NoteBar, "HairFlow: press Remember Stroke first, so Restore has a known state to return to.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Reset Stroke Defaults",
+  "Curve Mode OFF, Curve Step 0.25, Snap OFF, Lazy Radius 1 / Step 0.25 / Smooth 0 (ZBrush 2025.0.1 start-up values). Lazy Mouse on/off is left as-is because it is per brush.",
+  [RoutineCall, hfUnlock]
+  [If, [IExists, "Stroke:Curve:Curve Mode"], [ISet, "Stroke:Curve:Curve Mode", 0]]
+  [RoutineCall, hfSetCurveStep, 0.25]
+  [If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", 0]]
+  [If, [IExists, "Stroke:Lazy Radius"], [ISet, "Stroke:Lazy Radius", 1]]
+  [If, [IExists, "Stroke:Lazy Step"], [ISet, "Stroke:Lazy Step", 0.25]]
+  [If, [IExists, "Stroke:Lazy Smooth"], [ISet, "Stroke:Lazy Smooth", 0]]
+  [NoteBar, "HairFlow: stroke reset to ZBrush start-up values (Curve OFF, Step 0.25, Lazy 1/0.25/0).", 0],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Open Manual",
+  "Open C:/HairFlow/docs/README_zh.md in your default viewer. Run the installer once if the file is missing.",
+  [ShellExecute, "C:/HairFlow/docs/README_zh.md"],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Open Data Folder",
+  "Open C:/HairFlow in Explorer to inspect HairFlow_diag.txt.",
+  [ShellExecute, "C:/HairFlow"],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Diagnostics",
+  "Write the current Curve / Lazy / brush state to C:/HairFlow/HairFlow_diag.txt (one value group per line).",
+  [VarSet, hfOff, 0]
+  [MemCreate, HFM, 1024, 0]
+  [VarSet, hfLine, "HairFlow 1.6.0 diagnostics"]
+  [RoutineCall, hfDiagLine]
+  [VarSet, hfLine, [StrMerge, "curveMode=", [IGet, "Stroke:Curve:Curve Mode"], " curveStep=", [IGet, "Stroke:Curve:Curve Step"], " snap=", [IGet, "Stroke:Curve:Snap"]]]
+  [RoutineCall, hfDiagLine]
+  [VarSet, hfLine, [StrMerge, "lazy=", [IGet, "Stroke:Lazy Mouse"], " radius=", [IGet, "Stroke:Lazy Radius"], " step=", [IGet, "Stroke:Lazy Step"], " smooth=", [IGet, "Stroke:Lazy Smooth"]]]
+  [RoutineCall, hfDiagLine]
+  [VarSet, hfLine, [StrMerge, "drawSize=", [IGet, "Draw:Draw Size"], " zadd=", [IGet, "Draw:Zadd"], " zsub=", [IGet, "Draw:Zsub"], " lock=", hfLocked, " rem=", hfHasSnap]]
+  [RoutineCall, hfDiagLine]
+  [MemResize, HFM, hfOff]
+  [VarSet, hfDiagOk, [MemSaveToFile, HFM, "C:/HairFlow/HairFlow_diag.txt", 1]]
+  [MemDelete, HFM]
+  [If, (hfDiagOk > 0),
+    [NoteBar, "HairFlow: diagnostics written to C:/HairFlow/HairFlow_diag.txt.", 0]
+  ,
+    [NoteBar, "HairFlow: could not write diagnostics. Check that C:/HairFlow exists and is writable.", 0]
+  ],
+  0, 0]
+
+[IButton, "ZPlugin:HairFlow:Workflow",
+  "Show the 4-step long-strand workflow.",
+  [NoteBar, "1) Long Strand Curve. 2) Drag ONE curve root to tip. 3) Shape Lock, bend, Smooth Curve, Shape Unlock. 4) Click ON the curve once; Delete Curve.", 0],
+  0, 0]

@@ -1,0 +1,64 @@
+pal=1 slider=1
+start
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=0
+body Remember Stroke
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+body Preflight Check
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+body Long Strand Curve
+   mode=1 step=0.25 slider=0.25 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Step Fine
+   mode=1 step=0.1 slider=0.1 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Step Fast
+   mode=1 step=1 slider=1 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Curve Snap Off
+   mode=1 step=1 slider=1 snap=0
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Curve Snap On
+   mode=1 step=1 slider=1 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Step Medium
+   mode=1 step=0.5 slider=0.5 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Freehand Assist
+   mode=0 step=0.5 slider=0.5 snap=1
+   lazy=1 rad=10 lstep=0.25 lsm=4 remembered=1
+body Reset Stroke Defaults
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+body Long Strand Curve
+   mode=1 step=0.25 slider=0.25 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Curve Off
+   mode=0 step=0.25 slider=0.25 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Step Standard
+   mode=0 step=0.25 slider=0.25 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Diagnostics
+   mode=0 step=0.25 slider=0.25 snap=1
+   lazy=0 rad=1 lstep=0.25 lsm=0 remembered=1
+body Restore Stroke
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+extra slider ISet 0.6 (native step should follow)
+   mode=0 step=0.25 slider=0.6 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+extra legacy 1.4.0 Long Strand body: ISet Stroke:Curve 1 (sub-palette, not Curve Mode)
+   mode=0 step=0.25 slider=0.6 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+extra legacy 1.4.0 Add path resolves to
+   Stroke:Inventory:Add subpal=1
+   mode=0 step=0.25 slider=0.6 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+extra restore user state again
+   mode=0 step=0.25 slider=0.25 snap=0
+   lazy=1 rad=1 lstep=0.25 lsm=0 remembered=1
+done
+

@@ -1,0 +1,83 @@
+curveID=11277 strokeID=29400 exFn=0 exFnAdd=1 exZZ=0
+ex CurveMode=1 CurveStep=1 Curve:CurveStep=1 Lazy=1 LM:Lazy=1
+P Stroke:Curve = id 11277
+   title Stroke:Curve
+   v=0 min=0 max=1
+P Stroke:Curve:Curve Mode = id 1239
+   title Stroke:Curve Mode
+   v=0 min=0 max=1
+P Stroke:Curve Step = id 1241
+   title Stroke:CurveStep
+   v=0.25 min=0 max=10
+P Stroke:Curve:Curve Step = id 1241
+   title Stroke:CurveStep
+   v=0.25 min=0 max=10
+P Stroke:Curve:Snap = id 1249
+   title Stroke:Snap
+   v=0 min=0 max=1
+P Stroke:Lazy Mouse = id 1098
+   title Stroke:LazyMouse
+   v=1 min=0 max=1
+P Stroke:Lazy Mouse:LazyMouse = id 1098
+   title Stroke:LazyMouse
+   v=1 min=0 max=1
+P Stroke:Lazy Radius = id 1099
+   title Stroke:LazyRadius
+   v=1 min=1 max=200
+P Stroke:Lazy Mouse:LazyRadius = id 1099
+   title Stroke:LazyRadius
+   v=1 min=1 max=200
+P Stroke:Lazy Step = id 1101
+   title Stroke:LazyStep
+   v=0.25 min=0 max=10
+P Stroke:Lazy Mouse:LazyStep = id 1101
+   title Stroke:LazyStep
+   v=0.25 min=0 max=10
+P Stroke:Lazy Smooth = id 1102
+   title Stroke:LazySmooth
+   v=0 min=0 max=16
+P Stroke:Lazy Mouse:LazySmooth = id 1102
+   title Stroke:LazySmooth
+   v=0 min=0 max=16
+P Stroke:Curve Functions:Add = id 4804
+   title Stroke:Inventory:Add
+   v=0 min=0 max=1
+P Stroke:Curve Functions:Smooth = id 1252
+   title Stroke:Smooth
+   v=0 min=0 max=1
+P Stroke:Curve Functions:Delete = id 1250
+   title Stroke:Delete
+   v=0 min=0 max=1
+
+-- curve sub-palette members (IGetTitle by id)
+-- set/readback
+CurveMode before=0 after ISet 1=1 subpal=0
+CurveMode restored=0
+CurveStep set 0.1 read=0.1
+id Curve:Delete=1250 Curve:Smooth=1252 Curve:Snap=1249
+id Transform:Edit=1062 DrawSize=4464
+-- curve cluster
+1236 | Brush:Auto Masking:Topological | v=0 min=0 max=1
+1237 | Brush:Auto Masking:Range | v=5 min=0.1 max=100
+1238 | Brush:Auto Masking:Smooth | v=10 min=0 max=100
+1239 | Stroke:Curve Mode | v=0 min=0 max=1
+1240 | Stroke:AsLine | v=0 min=0 max=1
+1241 | Stroke:CurveStep | v=0.25 min=0 max=10
+1242 | Stroke:Intensity | v=1 min=0 max=1
+1243 | Stroke:Size | v=0 min=0 max=1
+1244 | Stroke:Curve Falloff | v=0 min=0 max=1
+1245 | Stroke:Curve Snap Distance | v=25 min=1 max=100
+1246 | Stroke:Curve Projection Range | v=4 min=0 max=10
+1247 | Stroke:Curve Smoothness | v=20 min=0 max=100
+1248 | Stroke:Bend Start | v=1 min=0 max=1
+1249 | Stroke:Snap | v=0 min=0 max=1
+1250 | Stroke:Delete | v=0 min=0 max=1
+1251 | Stroke:Snapshot | v=0 min=0 max=1
+1252 | Stroke:Smooth | v=0 min=0 max=1
+1253 | Stroke:Frame Mesh | v=0 min=0 max=1
+1254 | Stroke:Border | v=1 min=0 max=1
+1255 | Stroke:Polygroups | v=1 min=0 max=1
+1256 | Stroke:Creased edges | v=1 min=0 max=1
+1257 | Stroke:CurveEdit Radius | v=64 min=1 max=1000
+1258 | Stroke:CurveEdit FocalShift | v=0 min=-0.999 max=0.999
+

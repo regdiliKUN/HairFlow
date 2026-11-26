@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 490" width="1200" height="490">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#161a20"/>
+      <stop offset="1" stop-color="#0e1116"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8a5a4a"/>
+      <stop offset="0.5" stop-color="#5d3a32"/>
+      <stop offset="1" stop-color="#3a2521"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="460" fill="url(#bg)"/>
+  <text x="48" y="52" fill="#e8edf5" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="24" font-weight="700">HairFlow · 一条曲线，一次成笔</text>
+  <text x="48" y="80" fill="#8b98a9" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="13">长发沟壑分多段搭建，但只提交一条连续笔划 —— 接缝从源头不存在</text>
+
+  <!-- Panel 1 -->
+  <g transform="translate(48,110)">
+    <rect width="340" height="286" rx="14" fill="#1b2028" stroke="#2b3441"/>
+    <text x="20" y="34" fill="#cfd8e3" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="15" font-weight="600">1 · 整条路径</text>
+    <text x="20" y="56" fill="#7f8b9c" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">从发根拖到发梢，先求大致走向</text>
+
+    <path d="M120 78 C170 110 150 160 190 190 C230 220 210 262 250 276" fill="none" stroke="url(#hair)" stroke-width="34" stroke-linecap="round" opacity="0.9"/>
+    <path d="M120 78 C170 110 150 160 190 190" fill="none" stroke="#f0b35a" stroke-width="3" filter="url(#glow)"/>
+    <circle cx="120" cy="78" r="6" fill="#f0b35a"/>
+    <circle cx="155" cy="128" r="5" fill="#1b2028" stroke="#f0b35a" stroke-width="2"/>
+    <circle cx="190" cy="190" r="6" fill="#f0b35a"/>
+    <text x="204" y="186" fill="#f0b35a" font-family="Segoe UI, sans-serif" font-size="11">start</text>
+  </g>
+
+  <!-- Arrow 1 -->
+  <g transform="translate(396,238)">
+    <path d="M0 0 H28" stroke="#4b5a6d" stroke-width="2"/>
+    <path d="M28 0 L20 -6 M28 0 L20 6" stroke="#4b5a6d" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Panel 2 -->
+  <g transform="translate(432,110)">
+    <rect width="340" height="286" rx="14" fill="#1b2028" stroke="#2b3441"/>
+    <text x="20" y="34" fill="#cfd8e3" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="15" font-weight="600">2 · 锁定调形</text>
+    <text x="20" y="56" fill="#7f8b9c" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">Shape Lock 后拖动弯曲，Unlock 后点一下提交</text>
+
+    <path d="M120 78 C170 110 150 160 190 190 C230 220 210 262 250 276" fill="none" stroke="url(#hair)" stroke-width="34" stroke-linecap="round" opacity="0.9"/>
+    <path d="M120 78 C170 110 150 160 190 190" fill="none" stroke="#f0b35a" stroke-width="3" filter="url(#glow)"/>
+    <path d="M190 190 C230 220 210 262 250 276" fill="none" stroke="#6fd3c7" stroke-width="3" stroke-dasharray="6 5"/>
+    <circle cx="120" cy="78" r="6" fill="#f0b35a"/>
+    <circle cx="155" cy="128" r="5" fill="#1b2028" stroke="#f0b35a" stroke-width="2"/>
+    <circle cx="190" cy="190" r="6" fill="#f0b35a"/>
+    <circle cx="218" cy="222" r="5" fill="#1b2028" stroke="#6fd3c7" stroke-width="2"/>
+    <circle cx="230" cy="252" r="5" fill="#1b2028" stroke="#6fd3c7" stroke-width="2"/>
+    <circle cx="250" cy="276" r="6" fill="#6fd3c7"/>
+    <text x="262" y="280" fill="#6fd3c7" font-family="Segoe UI, sans-serif" font-size="11">bend</text>
+  </g>
+
+  <!-- Arrow 2 -->
+  <g transform="translate(780,238)">
+    <path d="M0 0 H28" stroke="#4b5a6d" stroke-width="2"/>
+    <path d="M28 0 L20 -6 M28 0 L20 6" stroke="#4b5a6d" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- Panel 3 -->
+  <g transform="translate(816,110)">
+    <rect width="336" height="286" rx="14" fill="#1b2028" stroke="#2b3441"/>
+    <text x="20" y="34" fill="#cfd8e3" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="15" font-weight="600">3 · 一次成笔</text>
+    <text x="20" y="56" fill="#7f8b9c" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">点击曲线提交：只有一条笔划，没有接缝</text>
+
+    <path d="M110 78 C160 110 140 160 180 190 C220 220 200 262 240 276" fill="none" stroke="url(#hair)" stroke-width="34" stroke-linecap="round" opacity="0.9"/>
+    <path d="M110 78 C160 110 140 160 180 190 C220 220 200 262 240 276" fill="none" stroke="#f0b35a" stroke-width="4" filter="url(#glow)"/>
+    <path d="M110 78 C160 110 140 160 180 190 C220 220 200 262 240 276" fill="none" stroke="#2a1c18" stroke-width="2" opacity="0.55"/>
+
+    <g transform="translate(258,246)">
+      <circle r="12" fill="#1f3b35" stroke="#6fd3c7" stroke-width="2"/>
+      <path d="M-6 0 L-1 5 L7 -5" fill="none" stroke="#6fd3c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <text x="276" y="268" fill="#6fd3c7" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="11">no seam</text>
+  </g>
+
+  <g transform="translate(48,414)">
+    <path d="M0 0 H34" stroke="#f0b35a" stroke-width="3"/>
+    <text x="44" y="4" fill="#aab6c5" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">已搭曲线</text>
+    <path d="M150 0 H184" stroke="#6fd3c7" stroke-width="3" stroke-dasharray="6 5"/>
+    <text x="194" y="4" fill="#aab6c5" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">新增控制段</text>
+    <circle cx="330" cy="0" r="8" fill="#1f3b35" stroke="#6fd3c7" stroke-width="2"/>
+    <path d="M326 0 L329 3 L334 -3" fill="none" stroke="#6fd3c7" stroke-width="2" stroke-linecap="round"/>
+    <text x="346" y="4" fill="#aab6c5" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">同一条曲线一次提交</text>
+  </g>
+
+  <text x="48" y="466" fill="#6f7d8f" font-family="Microsoft YaHei, Segoe UI, sans-serif" font-size="12">整条发束只有一条曲线；调形时 Shape Lock 关掉 Zadd/Zsub，拖动不雕刻；最后点一下曲线，只压一次。</text>
+</svg>

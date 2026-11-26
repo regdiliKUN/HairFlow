@@ -1,0 +1,11 @@
+[IConfig, 2021]
+[If, 1,
+[VarDef, HFS, ""]
+[VarSet, HFS, [StrMerge, "snap=", [IExists, "Stroke:Curve Snap"], " step=", [IExists, "Stroke:Curve Step"], " elastic=", [IExists, "Stroke:Curve Elastic"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "liquid=", [IExists, "Stroke:Curve Liquid"], " lockS=", [IExists, "Stroke:Curve Lock Start"], " lockE=", [IExists, "Stroke:Curve Lock End"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "bend=", [IExists, "Stroke:Curve Bend"], " step2=", [IExists, "Stroke:Curve:Step"], " snap2=", [IExists, "Stroke:Curve:Snap"], [StrFromAsc, 10]]]
+[MemCreate, HFX, 1024, 0]
+[MemWriteString, HFX, #HFS, 0]
+[MemSaveToFile, HFX, "C:/HairFlowTest/curve_ui.txt", 1]
+[MemDelete, HFX]
+]

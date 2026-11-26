@@ -1,0 +1,11 @@
+[IConfig, 2021]
+[If, 1,
+[VarDef, HFS, ""]
+[VarSet, HFS, [StrMerge, "pal=", [IExists, "ZPlugin:HairFlow"], " long=", [IExists, "ZPlugin:HairFlow:Long Strand Curve"], " free=", [IExists, "ZPlugin:HairFlow:Freehand Assist"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "snapOn=", [IExists, "ZPlugin:HairFlow:Curve Snap On"], " step20=", [IExists, "ZPlugin:HairFlow:Curve Step 20"], [StrFromAsc, 10]]]
+[VarSet, HFS, [StrMerge, #HFS, "remember=", [IExists, "ZPlugin:HairFlow:Remember Stroke"], " restore=", [IExists, "ZPlugin:HairFlow:Restore Stroke"], " diag=", [IExists, "ZPlugin:HairFlow:Diagnostics"]]]
+[MemCreate, HFX, 1024, 0]
+[MemWriteString, HFX, #HFS, 0]
+[MemSaveToFile, HFX, "C:/HairFlowTest/hairflow12_ui.txt", 1]
+[MemDelete, HFX]
+]

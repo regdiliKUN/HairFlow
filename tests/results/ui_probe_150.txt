@@ -1,0 +1,33 @@
+pal=1 slider=1 count=20
+Preflight Check=1
+Long Strand Curve=1
+Curve Off=1
+Curve Edit Tips=1
+Smooth Curve=1
+Delete Curve=1
+Step Fine=1
+Step Standard=1
+Step Medium=1
+Step Fast=1
+Curve Snap On=1
+Curve Snap Off=1
+Freehand Assist=1
+Remember Stroke=1
+Restore Stroke=1
+Reset Stroke Defaults=1
+Open Manual=1
+Open Data Folder=1
+Diagnostics=1
+Workflow=1
+-- native paths (expect: Curve Mode, CurveStep, Snap, Smooth, Delete, LazyMouse, LazyRadius, LazyStep, LazySmooth)
+Stroke:Curve:Curve Mode -> Stroke:Curve Mode
+Stroke:Curve:Curve Step -> Stroke:CurveStep
+Stroke:Curve:Snap -> Stroke:Snap
+Stroke:Curve:Smooth -> Stroke:Smooth
+Stroke:Curve:Delete -> Stroke:Delete
+Stroke:Lazy Mouse -> Stroke:LazyMouse
+Stroke:Lazy Radius -> Stroke:LazyRadius
+Stroke:Lazy Step -> Stroke:LazyStep
+Stroke:Lazy Smooth -> Stroke:LazySmooth
+done
+

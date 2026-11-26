@@ -1,0 +1,13 @@
+[IConfig, 2021]
+[If, 1,
+[ISet, "Stroke:Curve", 1]
+[ISet, "Stroke:Lazy Mouse", 0]
+[If, [IExists, "Stroke:Curve:Snap"], [ISet, "Stroke:Curve:Snap", 1]]
+[If, [IExists, "Stroke:Curve Step"], [ISet, "Stroke:Curve Step", 20]]
+[VarDef, HFS, ""]
+[VarSet, HFS, [StrMerge, "curve=", [IGet, "Stroke:Curve"], " lazy=", [IGet, "Stroke:Lazy Mouse"], " step=", [IGet, "Stroke:Curve Step"], " snap=", [IGet, "Stroke:Curve:Snap"]]]
+[MemCreate, HFX, 512, 0]
+[MemWriteString, HFX, #HFS, 0]
+[MemSaveToFile, HFX, "C:/HairFlowTest/curve_set_result.txt", 1]
+[MemDelete, HFX]
+]

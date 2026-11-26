@@ -1,0 +1,4 @@
+HairFlow 1.6.0 diagnostics
+curveMode=0 curveStep=0.25 snap=1
+lazy=0 radius=1 step=0.25 smooth=0
+drawSize=64 zadd=1 zsub=0 lock=0 rem=1

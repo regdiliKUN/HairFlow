@@ -4,7 +4,7 @@
 
 适用 ZBrush 2022.0.5 / 2025.0.1（两版都已实测） · 纯 ZScript，无 DLL · MIT License
 
-![workflow](docs/workflow.svg)
+<p><img src="docs/images/cover.jpg" width="260"> <img src="docs/images/compare.jpg" width="260"> <img src="docs/images/steps.jpg" width="260"></p>
 
 ## 它解决什么
 
